@@ -1,6 +1,7 @@
 @extends('layout')
 @section('content')
-<div style="max-width:400px;margin:60px auto;background:#fff;padding:32px 28px;border-radius:10px;box-shadow:0 2px 12px #0002;">
+<div style="background: url('https://uasbucket1.s3.ap-southeast-1.amazonaws.com/foto_frontend/wallpaper.jpeg') no-repeat center center fixed; background-size: cover; min-height: 100vh;">
+</div>
     <h2 style="text-align:center;color:#1a237e;margin-bottom:24px;">Login</h2>
     <form method="POST" action="{{ route('login') }}">
         @csrf
