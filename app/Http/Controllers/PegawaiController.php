@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PegawaiController extends Controller
 {
@@ -44,18 +45,18 @@ class PegawaiController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'nip' => 'required|unique:pegawais',
-            'nama' => 'required',
-            'jabatan' => 'required',
-            'alamat' => 'required',
-            'no_telepon' => 'required',
-            'email' => 'required|email',
-        ]);
-        Pegawai::create($request->all());
-        return redirect()->route('pegawai.index')->with('success', 'Data karyawan berhasil ditambahkan!');
-    }
+{
+    $request->validate([
+        // ...validasi field pegawai...
+    ]);
+    $pegawai = Pegawai::create($request->all());
+
+    // Backup ke S3
+    $filename = 'backup_master_data_pegawai/pegawai_' . $pegawai->id . '_' . date('Ymd_His') . '.json';
+    Storage::disk('s3')->put($filename, json_encode($pegawai));
+
+    return redirect()->route('pegawai.index')->with('success', 'Data pegawai berhasil ditambahkan dan di-backup ke S3!');
+}
 
     /**
      * Display the specified resource.
