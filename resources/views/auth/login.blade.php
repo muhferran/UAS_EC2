@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-<div style="background: url('https://uasbucket1.s3.ap-southeast-1.amazonaws.com/foto_frontend/wallpaper.jpeg') no-repeat center center fixed; background-size: cover; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+<div style="background: url('https://uasbucket1.s3.ap-southeast-1.amazonaws.com/foto_frontend/wallpaper.jpeg') no-repeat center center fixed; background-size: cover; min-height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center;">
     <div style="background: rgba(255,255,255,0.85); padding: 32px 24px; border-radius: 8px; min-width: 320px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
         <h2 style="text-align:center;color:#1a237e;margin-bottom:24px;">Login</h2>
         <form method="POST" action="{{ route('login') }}">

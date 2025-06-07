@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\KartuKeluarga;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Facades\Storage;
 
 class KartuKeluargaController extends Controller
 {
@@ -62,8 +63,11 @@ class KartuKeluargaController extends Controller
             'kabupaten_kota' => 'required',
             'provinsi' => 'required',
         ]);
-        KartuKeluarga::create($request->all());
-        return redirect()->route('kartu-keluarga.index')->with('success', 'Data KK berhasil ditambahkan!');
+        $kk = KartuKeluarga::create($request->all());
+        // Backup ke S3 setelah data berhasil disimpan
+        $filename = 'backup/kartu_keluarga_' . $kk->id . '_' . date('Ymd_His') . '.json';
+        Storage::disk('s3')->put($filename, json_encode($kk));
+        return redirect()->route('kartu-keluarga.index')->with('success', 'Data KK berhasil ditambahkan dan di-backup ke S3!');
     }
 
     /**
